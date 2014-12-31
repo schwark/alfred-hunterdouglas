@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.satyavolu.alfred</string>
+	<key>category</key>
+	<string>Tools</string>
+	<key>connections</key>
+	<dict>
+		<key>12369C26-24C6-4107-AD2C-6996BB521A5E</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>531218FD-700C-4EB8-84BA-941222A6FAAC</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>1CC686A0-B002-4DD5-A78D-1CDC7815BC54</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>52FB003A-8298-4361-BB60-6E148AF41352</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>39E547C3-9C21-49BF-8166-616DE7121A39</key>
+		<array/>
+		<key>57860455-BE78-4561-969A-9A674F5EDD9B</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>F6247CB4-251C-43E5-AFF2-BD446E924205</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>8A57075C-05FE-4CF4-8DEF-8508529657DB</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>BB169064-EAF6-4604-A88D-760DC63E5113</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>B93903CD-55AA-4FFF-BBA0-77D0B90C9FE5</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>0AB02B0A-0B4A-4594-827A-C644DDF2A0D8</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>C2B981D2-D95C-47A9-8982-019137F568F4</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>57860455-BE78-4561-969A-9A674F5EDD9B</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>DDF45308-6750-447C-AE68-1D06794F620D</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>8A57075C-05FE-4CF4-8DEF-8508529657DB</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>E682EA43-C1D7-462C-ADBD-EF3A09CAEB3D</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>39E547C3-9C21-49BF-8166-616DE7121A39</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Schwark Satyavolu</string>
+	<key>description</key>
+	<string>Control your Hunter Douglas Windows via Platinum Gateway</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Hunter Douglas Platinum Control</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<true/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<true/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>Cache Cleaned</string>
+				<key>title</key>
+				<string>Hunter Douglas</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>F6247CB4-251C-43E5-AFF2-BD446E924205</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>pl_reset</string>
+				<key>text</key>
+				<string>Reset Files</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>C2B981D2-D95C-47A9-8982-019137F568F4</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>63</integer>
+				<key>script</key>
+				<string>rm hunterdouglas.json</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>57860455-BE78-4561-969A-9A674F5EDD9B</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>63</integer>
+				<key>script</key>
+				<string>from list_collector import execute_command
+
+print(execute_command("{query}"))</string>
+				<key>type</key>
+				<integer>3</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>39E547C3-9C21-49BF-8166-616DE7121A39</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>keyword</key>
+				<string>plw</string>
+				<key>runningsubtext</key>
+				<string>Collecting windows...</string>
+				<key>script</key>
+				<string>from list_collector import list_collector
+
+print(list_collector("{query}","shades"))</string>
+				<key>subtext</key>
+				<string>A list of your windows</string>
+				<key>title</key>
+				<string>Windows</string>
+				<key>type</key>
+				<integer>3</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>E682EA43-C1D7-462C-ADBD-EF3A09CAEB3D</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>from hunterdouglas import init
+
+print(init("{query}"))</string>
+				<key>type</key>
+				<integer>3</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>8A57075C-05FE-4CF4-8DEF-8508529657DB</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>keyword</key>
+				<string>pl_update</string>
+				<key>subtext</key>
+				<string>This should be done every time you update permissions or rename your windows or to update states</string>
+				<key>text</key>
+				<string>Update Your Local Window Cache</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>DDF45308-6750-447C-AE68-1D06794F620D</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<true/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<true/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>Hunter Douglas</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>BB169064-EAF6-4604-A88D-760DC63E5113</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>63</integer>
+				<key>script</key>
+				<string>from list_collector import execute_command
+
+print(execute_command("{query}"))</string>
+				<key>type</key>
+				<integer>3</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>531218FD-700C-4EB8-84BA-941222A6FAAC</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>keyword</key>
+				<string>pls</string>
+				<key>runningsubtext</key>
+				<string>Collecting scenes...</string>
+				<key>script</key>
+				<string>from list_collector import list_collector
+
+print(list_collector("{query}","scenes"))</string>
+				<key>subtext</key>
+				<string>A list of your scenes</string>
+				<key>title</key>
+				<string>Scenes</string>
+				<key>type</key>
+				<integer>3</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>12369C26-24C6-4107-AD2C-6996BB521A5E</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>63</integer>
+				<key>script</key>
+				<string>from list_collector import execute_command
+
+print(execute_command("{query}"))</string>
+				<key>type</key>
+				<integer>3</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>52FB003A-8298-4361-BB60-6E148AF41352</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>keyword</key>
+				<string>pl</string>
+				<key>runningsubtext</key>
+				<string>Collecting scenes...</string>
+				<key>script</key>
+				<string>from list_collector import list_collector
+
+print(list_collector("{query}"))</string>
+				<key>subtext</key>
+				<string>A list of your scenes</string>
+				<key>title</key>
+				<string>Hunter Douglas Platinum Gateway</string>
+				<key>type</key>
+				<integer>3</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>1CC686A0-B002-4DD5-A78D-1CDC7815BC54</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>keyword</key>
+				<string>plr</string>
+				<key>runningsubtext</key>
+				<string>Collecting rooms...</string>
+				<key>script</key>
+				<string>from list_collector import list_collector
+
+print(list_collector("{query}","rooms"))</string>
+				<key>subtext</key>
+				<string>A list of your rooms</string>
+				<key>title</key>
+				<string>Rooms</string>
+				<key>type</key>
+				<integer>3</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>B93903CD-55AA-4FFF-BBA0-77D0B90C9FE5</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>63</integer>
+				<key>script</key>
+				<string>from list_collector import execute_command
+
+print(execute_command("{query}"))</string>
+				<key>type</key>
+				<integer>3</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>0AB02B0A-0B4A-4594-827A-C644DDF2A0D8</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>0AB02B0A-0B4A-4594-827A-C644DDF2A0D8</key>
+		<dict>
+			<key>ypos</key>
+			<real>860</real>
+		</dict>
+		<key>12369C26-24C6-4107-AD2C-6996BB521A5E</key>
+		<dict>
+			<key>ypos</key>
+			<real>620</real>
+		</dict>
+		<key>1CC686A0-B002-4DD5-A78D-1CDC7815BC54</key>
+		<dict>
+			<key>ypos</key>
+			<real>740</real>
+		</dict>
+		<key>39E547C3-9C21-49BF-8166-616DE7121A39</key>
+		<dict>
+			<key>ypos</key>
+			<real>380</real>
+		</dict>
+		<key>52FB003A-8298-4361-BB60-6E148AF41352</key>
+		<dict>
+			<key>ypos</key>
+			<real>740</real>
+		</dict>
+		<key>531218FD-700C-4EB8-84BA-941222A6FAAC</key>
+		<dict>
+			<key>ypos</key>
+			<real>620</real>
+		</dict>
+		<key>57860455-BE78-4561-969A-9A674F5EDD9B</key>
+		<dict>
+			<key>ypos</key>
+			<real>260</real>
+		</dict>
+		<key>8A57075C-05FE-4CF4-8DEF-8508529657DB</key>
+		<dict>
+			<key>ypos</key>
+			<real>500</real>
+		</dict>
+		<key>B93903CD-55AA-4FFF-BBA0-77D0B90C9FE5</key>
+		<dict>
+			<key>ypos</key>
+			<real>860</real>
+		</dict>
+		<key>BB169064-EAF6-4604-A88D-760DC63E5113</key>
+		<dict>
+			<key>ypos</key>
+			<real>500</real>
+		</dict>
+		<key>C2B981D2-D95C-47A9-8982-019137F568F4</key>
+		<dict>
+			<key>ypos</key>
+			<real>260</real>
+		</dict>
+		<key>DDF45308-6750-447C-AE68-1D06794F620D</key>
+		<dict>
+			<key>ypos</key>
+			<real>500</real>
+		</dict>
+		<key>E682EA43-C1D7-462C-ADBD-EF3A09CAEB3D</key>
+		<dict>
+			<key>ypos</key>
+			<real>380</real>
+		</dict>
+		<key>F6247CB4-251C-43E5-AFF2-BD446E924205</key>
+		<dict>
+			<key>ypos</key>
+			<real>260</real>
+		</dict>
+	</dict>
+	<key>webaddress</key>
+	<string>twitter.com/schwark</string>
+</dict>
+</plist>
