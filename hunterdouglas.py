@@ -1,11 +1,12 @@
-import threading
+# adapted from https://github.com/tannewt/agohunterdouglas/agohunterdouglas.py
+# license from that project included in this repo as well
+
 import time
 import socket
 import json
 import re
 import sys
 import subprocess
-import time
 from os.path import expanduser
 
 HD_GATEWAY_PORT = 522
