@@ -30,17 +30,19 @@ If someone can figure out the bug in my code, please do let me know.
 ```bash
 pls <scene-name>
 ```
+runs a scene
 
 ```bash
 plw <up|down|n> <window-name>
 ```
-where n is numeric %age up you want the window - 100=up, 0=down
+rolls a specific window to a specified position - can be up/down or a number n where n is numeric %age up you want the window - 100=up, 0=down
 
 ```bash
 plr <up|down|n> <room-name>
 ```
+rolls all windows in a room to specified position
 
 ```bash
 pl <scene-name>
 ```
-as that is the most common usage
+a synonym for pls as that is the most common usage
