@@ -74,7 +74,7 @@ def set_room(internal_id, hd_value):
     shade = DB['shades'][name]
     if internal_id == shade['room']:
       room_ids.append(shade['id'])
-  set_multi_shade(room_ids)
+  set_multi_shade(room_ids,hd_value)
   return None
 
 def set_shade(internal_id, hd_value):
