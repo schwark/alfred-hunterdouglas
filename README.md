@@ -13,30 +13,34 @@ Step 1:
 Install the Platinum Control Alfred workflow
 
 Step 2:
-open Alfred and pl_update *gateway-ip*
+open Alfred and 
+
+```bash
+pl_update <gateway-ip>
+```
 
 if you have a really large installation, sometimes some of the windows and rooms were getting missed - I was unable to debug the python socket behavior to see why some of the data was missing. So I used an exec of nc (netcat) to get the data for larger networks. To activate this alternative method:
 
 ```bash
-pl_update *gateway-ip* alt
+pl_update <gateway-ip> alt
 ```
 
 If someone can figure out the bug in my code, please do let me know.
 
 ```bash
-pls *scene-name*
+pls <scene-name>
 ```
 
 ```bash
-plw *up|down|n* *window-name*    
+plw <up|down|n> <window-name>
 ```
 where n is numeric %age up you want the window - 100=up, 0=down
 
 ```bash
-plr *up|down|n* *room-name*
+plr <up|down|n> <room-name>
 ```
 
 ```bash
-pl *scene-name*
+pl <scene-name>
 ```
 as that is the most common usage
