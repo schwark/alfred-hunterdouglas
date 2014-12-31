@@ -46,3 +46,8 @@ rolls all windows in a room to specified position
 pl <scene-name>
 ```
 a synonym for pls as that is the most common usage
+
+```bash
+pl_reset
+```
+to remove local cache - could precede a pl_update
