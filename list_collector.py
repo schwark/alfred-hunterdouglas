@@ -82,7 +82,14 @@ def list_collector(query="",kind="scenes"):
 
     feedback_list = sorted(feedback_list, key=lambda k:k['subtitle'])
     for item in feedback_list:
-        feedback.addItem(title=item['title'], subtitle=item['subtitle'], arg=item['arg'], valid=item['valid'], autocomplete=item['autocomplete'])    
-
+        feedback.addItem(title=item['title'], subtitle=item['subtitle'], arg=item['arg'], valid=item['valid'], autocomplete=item['autocomplete'])
+    
     return feedback
+
+
+def main():
+    print list_collector('bedroom','shades')
+
+if __name__ == "__main__":
+    main()
 

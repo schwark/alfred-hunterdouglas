@@ -7,12 +7,12 @@ import json
 import re
 import sys
 import subprocess
-from os.path import expanduser
 
 HD_GATEWAY_PORT = 522
 TIMEOUT = 100
-DB_FILE = expanduser("hunterdouglas.json")
+DB_FILE = "hunterdouglas.json"
 DB = {}
+DEBUG = False
 
 def check_db():
   global DB
@@ -38,31 +38,43 @@ def set_server(server):
   save_db()
 
 def is_alive(sock):
+  alive = False
   try:
     sock.sendall("$dmy")
-    print repr(recv_until(sock, "ack\n\r"))
+    recv_until(sock, "ack\n\r")
+    alive = True
   except socket.error as e:
     sock.close()
+  return alive
 
 def verify_socket(sock=None):
   global DB
   check_db()
 
   try:
-    if not sock:
-      sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-  except socket.error as e:
+    if not sock or not is_alive(sock):
+      sock = socket.create_connection((DB['server'], HD_GATEWAY_PORT), TIMEOUT)
+  except socket.error:
     sock.close()
-  sock = socket.create_connection((DB['server'], HD_GATEWAY_PORT), TIMEOUT)
+    sock = None
   return sock
+
+def set_multi_shade(internal_ids, hd_value):
+  # space separated list of ids or array of ids
+  if not isinstance(internal_ids, list):
+    internal_ids = internal_ids.split(' ')
+  for each_id in internal_ids:
+    set_shade(each_id, hd_value)
+    time.sleep(2)
 
 def set_room(internal_id, hd_value):
   check_db()
+  room_ids = []
   for name in DB['shades']:
     shade = DB['shades'][name]
     if internal_id == shade['room']:
-      set_shade(shade['id'], hd_value)
-      time.sleep(2)
+      room_ids.append(shade['id'])
+  set_multi_shade(room_ids)
   return None
 
 def set_shade(internal_id, hd_value):
@@ -90,8 +102,10 @@ def set_shade(internal_id, hd_value):
 
 def set_scene(internal_id):
   sock = verify_socket()
-  sock.sendall("$inm%s-" % (internal_id))
-  recv_until(sock, "act00-00-")
+  for i in (1,2):
+    sock.sendall("$inm%s-" % (internal_id))
+    recv_until(sock, "act00-00-")
+    time.sleep(2)
   sock.close()
   return True
 
@@ -145,11 +159,14 @@ def init(params=None):
   check_db()
 
   if not 'server' in DB:
-    msg = "Platinum Gateway IP is not set. Please set it using pl_update <ip>";
+    msg = "Platinum Gateway IP is not set. Please set it using pl_update <ip>"
     return msg
 
+  sock = verify_socket()
+  if not sock:
+    msg = "Cannot reach Platinum Gateway. Please recheck IP and set"
+    return msg
   if 'socket' == init_method:
-    sock = verify_socket()
     sock.sendall("$dat")
     info = recv_until(sock,"upd01-")
     sock.close()
@@ -204,4 +221,12 @@ def init(params=None):
         DB['shades'][shade]['state'] = state
   save_db()
   return "Window Cache Updated"
+
+def main():
+  global DEBUG
+  DEBUG = True
+  print init(" ".join(sys.argv[1:]))
+
+if __name__ == "__main__":
+    main()
   
