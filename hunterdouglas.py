@@ -7,12 +7,72 @@ import json
 import re
 import sys
 import subprocess
+import logging
+from colorlog import ColoredFormatter
+
+LOG_LEVEL = logging.ERROR
+LOGFORMAT = "%(log_color)s[%(levelname)s] %(asctime)s %(name)s : %(message)s%(reset)s"
+LOG = None
+
+
+def get_log(level=LOG_LEVEL):
+  global LOG
+  if not LOG:
+    formatter = ColoredFormatter(LOGFORMAT)
+    stream = logging.StreamHandler()
+    stream.setFormatter(formatter)
+    logging.root.setLevel(level)
+    stream.setLevel(level)
+    LOG = logging.getLogger(__name__)
+    LOG.addHandler(stream)
+    LOG.setLevel(level)
+  return LOG
 
 HD_GATEWAY_PORT = 522
-TIMEOUT = 100
+TIMEOUT = 10
 DB_FILE = "hunterdouglas.json"
+TEMP_FILE = "input.txt"
 DB = {}
-DEBUG = False
+
+
+def net_com(message, sentinel=None):
+  check_db()
+  content = None
+  get_log().debug("sending message: %s", message)
+  if not 'comtype' in DB or "socket" == DB['comtype']:
+    get_log().debug("using socket communication")
+    content = socket_com(message, sentinel)
+  else:
+    get_log().debug("using netcat communication")
+    content = nc_com(message, sentinel)
+  get_log().debug("received message:")
+  get_log().debug(content)
+  return content
+
+def socket_com(message, sentinel=None, sock=None):
+  content = None
+  try:
+    if not sock:
+      sock = create_socket()
+      sock.sendall(message)
+      content = recv_until(sock, sentinel)
+  except socket.error:
+    pass
+  finally:
+    if sock:
+      sock.close()
+  return content
+
+def nc_com(message, sentinel=None):
+  check_db()
+  content = None
+  lcmd = ['/usr/bin/nc', '-i2', DB['server'], str(HD_GATEWAY_PORT)]
+  get_log().debug("executing %s", lcmd)
+  with open(TEMP_FILE, 'w+') as fp:
+    fp.write(message+"\n")
+  with open(TEMP_FILE, 'r') as fp:  
+    content = subprocess.check_output(lcmd, stderr=subprocess.STDOUT, stdin=fp)
+  return content
 
 def check_db():
   global DB
@@ -38,22 +98,15 @@ def set_server(server):
   save_db()
 
 def is_alive(sock):
-  alive = False
-  try:
-    sock.sendall("$dmy")
-    recv_until(sock, "ack\n\r")
-    alive = True
-  except socket.error as e:
-    sock.close()
-  return alive
+  return socket_com("$dmy", "ack", sock)
 
-def verify_socket(sock=None):
+def create_socket():
   global DB
   check_db()
 
   try:
-    if not sock or not is_alive(sock):
-      sock = socket.create_connection((DB['server'], HD_GATEWAY_PORT), TIMEOUT)
+    sock = socket.create_connection((DB['server'], HD_GATEWAY_PORT), timeout=TIMEOUT)
+    helo = recv_until(sock, 'Shade Controller')
   except socket.error:
     sock.close()
     sock = None
@@ -78,7 +131,7 @@ def set_room(internal_id, hd_value):
   return None
 
 def set_shade(internal_id, hd_value):
-  sock = verify_socket()
+  sock = create_socket()
 
   if "up" == hd_value:
     hd_value = 255
@@ -93,23 +146,13 @@ def set_shade(internal_id, hd_value):
   if 0 > hd_value or 255 < hd_value:
     return None
 
-  sock.sendall("$pss%s-04-%03d" % (internal_id, hd_value))
-  recv_until(sock, "done")
-  sock.sendall("$rls")
-  recv_until(sock, "act00-00-")
-  sock.close()
-  return True
-
+  content = net_com("$pss%s-04-%03d" % (internal_id, hd_value), "done")
+  return content + net_com("$rls", "act00-00-")
+  
 def set_scene(internal_id):
-  sock = verify_socket()
-  for i in (1,2):
-    sock.sendall("$inm%s-" % (internal_id))
-    recv_until(sock, "act00-00-")
-    time.sleep(2)
-  sock.close()
-  return True
+  return net_com("$inm%s-" % (internal_id), "act00-00-")
 
-def recv_until(sock, sentinel):
+def recv_until(sock, sentinel=None):
   info = ""
   while True:
     try:
@@ -135,47 +178,46 @@ def find_by_name(kind, name):
   result = []
   name = name.lower()
   for key in DB[kind].keys():
-    #print("searching {candidate} for {key}".format(candidate=DB[kind][key]['search'],key=name))
     if name in DB[kind][key]['search']:
       result.append(DB[kind][key])
   return result  
 
 def init(params=None):
-  init_method = 'socket'
+  global DB
+  check_db()
 
-  if 'init_method' in DB:
-    init_method = DB['init_method']
+  comtype = 'socket'
+
+  if 'comtype' in DB:
+    comtype = DB['comtype']
 
   if params:                 
     # <server-ip> <init-method (alt)>
     params = params.split(' ')
+    get_log().debug("processing with params : %s", params)
     if(len(params) > 0):
       set_server(params[0])
     if(len(params) > 1 and 'alt' == params[1]):
-      init_method = 'alt'
+      comtype = 'alt'
 
-  DB['init_method'] = init_method
+  DB['comtype'] = comtype
 
-  check_db()
 
-  if not 'server' in DB:
+  if not 'server' in DB or not DB['server']:
     msg = "Platinum Gateway IP is not set. Please set it using pl_update <ip>"
     return msg
 
-  sock = verify_socket()
+  sock = create_socket()
   if not sock:
     msg = "Cannot reach Platinum Gateway. Please recheck IP and set"
     return msg
-  if 'socket' == init_method:
-    sock.sendall("$dat")
-    info = recv_until(sock,"upd01-")
-    sock.close()
   else:
-    lcmd = ['/usr/bin/nc', '-i2', DB['server'], str(HD_GATEWAY_PORT)]
-    #print "executing ", lcmd
-    inp = open('input.txt')
-    info = subprocess.check_output(lcmd, stderr=subprocess.STDOUT, stdin=inp)
-    #print "init: {line}".format(line=info)
+    sock.close()
+
+  info = net_com("$dat", "upd01-")
+  if not info:
+    msg = "Unable to get data about windows and scenes from Gateway"
+    return msg
 
   DB['rooms'] = {}
   DB['scenes'] = {}
@@ -185,7 +227,6 @@ def init(params=None):
   lines = re.split(r'[\n\r]+', info)
 
   for line in lines:
-    #print "init: {line}".format(line=line)
     line = line.strip()
     if not prefix:
       prefix = line[:2]
@@ -223,8 +264,7 @@ def init(params=None):
   return "Window Cache Updated"
 
 def main():
-  global DEBUG
-  DEBUG = True
+  get_log(logging.DEBUG)
   print init(" ".join(sys.argv[1:]))
 
 if __name__ == "__main__":
