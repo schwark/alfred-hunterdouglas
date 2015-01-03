@@ -25,6 +25,28 @@ def execute_command(command):
         hunterdouglas.set_room(internal_id, command)
     return
 
+def choose_command(current, latest):
+    # if current is None, then no contest
+    if not current:
+        return (latest, current)
+    # if one of them is a word command, that wins
+    if current in COMMANDS:
+        return (current, latest)
+    if latest in COMMANDS:
+        return (latest, current)
+    # if both are digits, choose larger number
+    if current.isdigit() and latest.isdigit():
+        if int(current) > int(latest):
+            return (current, latest)
+        else:
+            return (latest, current)
+    # if one of them is a two digit number, that wins
+    if current.isdigit() and len(current) > 1:
+        return (current, latest)
+    if latest.isdigit() and len(latest) > 1:
+        return (latest, current)
+    return (current, latest)
+
 def list_collector(query="",kind="scenes"):
     global TYPES, COMMANDS, VERBS
     #print("list_collector: query is {query}").format(query=query)
@@ -42,9 +64,9 @@ def list_collector(query="",kind="scenes"):
     command = None
     for currentArg in args:
         if currentArg in COMMANDS or currentArg.isdigit():
-            command = currentArg
+            command, currentArg = choose_command(command, currentArg)
             executable = True
-        if currentArg != command:
+        if currentArg != command and currentArg:
             term += ' {ca}'.format(ca=currentArg)
     term = term.strip()
 
